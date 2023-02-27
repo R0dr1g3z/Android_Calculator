@@ -8,6 +8,16 @@ class CalculatorViewModelTest {
     private val viewModel = CalculatorViewModel()
 
     @Test
+    fun testing_backspace_button(){
+        viewModel.addToResult("2")
+        viewModel.addToResult("5")
+        viewModel.addToResult("7")
+        viewModel.backspaceButton()
+        viewModel.addToResult("8")
+
+        assertEquals("258", viewModel.uiState.value.result)
+    }
+    @Test
     fun testing_reset_result() {
         viewModel.addToResult("1")
         viewModel.addToResult("5")

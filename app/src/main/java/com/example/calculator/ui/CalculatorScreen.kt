@@ -18,6 +18,7 @@ import com.example.calculator.data.DataSource.firstRowOptions
 import com.example.calculator.data.DataSource.fourthRowOptions
 import com.example.calculator.data.DataSource.secondRowOptions
 import com.example.calculator.data.DataSource.thirdRowOptions
+import com.example.calculator.model.Calculator
 import com.example.calculator.ui.theme.CalculatorTheme
 
 @Composable
@@ -27,12 +28,20 @@ fun CalculatorApp(calculatorViewModel: CalculatorViewModel = viewModel()) {
     CalculatorScreen(
         result = calculatorUiState.result,
         addToResult = { calculatorViewModel.addToResult(it) },
-        resetResult = { calculatorViewModel.resetResult() }
+        resetResult = { calculatorViewModel.resetResult() },
+        actualResult = calculatorUiState.actualResult,
+        backspaceButton = { calculatorViewModel.backspaceButton() }
     )
 }
 
 @Composable
-fun CalculatorScreen(result: String, addToResult: (String) -> Unit, resetResult: () -> Unit) {
+fun CalculatorScreen(
+    result: String,
+    addToResult: (Calculator) -> Unit,
+    resetResult: () -> Unit,
+    actualResult: Long,
+    backspaceButton: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +54,11 @@ fun CalculatorScreen(result: String, addToResult: (String) -> Unit, resetResult:
                 .weight(1f)
                 .align(Alignment.End)
         )
-        TopScreen(modifier = Modifier.align(Alignment.End))
+        TopScreen(
+            modifier = Modifier.align(Alignment.End),
+            actualResult = actualResult,
+            backspaceButton = backspaceButton
+        )
         BottomScreen(addToResult = addToResult, resetResult = resetResult)
     }
 }
@@ -78,25 +91,28 @@ fun ResultScreen(result: String, modifier: Modifier) {
 }
 
 @Composable
-fun TopScreen(modifier: Modifier) {
+fun TopScreen(modifier: Modifier, actualResult: Long, backspaceButton: () -> Unit) {
 
     Text(
-        "9240982342",
+        "$actualResult",
         color = colorScheme.primary,
         style = MaterialTheme.typography.headlineSmall,
         modifier = modifier.padding(bottom = 16.dp)
     )
-    IconButton(onClick = { /*TODO*/ }, modifier = modifier.padding(end = 18.dp, bottom = 8.dp)) {
+    IconButton(
+        onClick = backspaceButton,
+        modifier = modifier.padding(end = 18.dp, bottom = 8.dp)
+    ) {
         Icon(
             imageVector = Icons.Outlined.Backspace,
-            contentDescription = null,
+            contentDescription = "backspace",
             tint = colorScheme.tertiary
         )
     }
 }
 
 @Composable
-fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
+fun BottomScreen(addToResult: (Calculator) -> Unit, resetResult: () -> Unit) {
 
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         firstRowOptions.forEach { item ->
@@ -114,7 +130,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
                 }
             } else {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -131,7 +147,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
         secondRowOptions.forEach { item ->
             if (item.option == "X") {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -143,7 +159,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
                 }
             } else {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -160,7 +176,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
         thirdRowOptions.forEach { item ->
             if (item.option == "-") {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -172,7 +188,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
                 }
             } else {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -189,7 +205,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
         fourthRowOptions.forEach { item ->
             if (item.option == "+") {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -201,7 +217,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
                 }
             } else {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
@@ -230,7 +246,7 @@ fun BottomScreen(addToResult: (String) -> Unit, resetResult: () -> Unit) {
                 }
             } else {
                 Button(
-                    onClick = { addToResult(item.option) },
+                    onClick = { addToResult(item) },
                     modifier = Modifier.size(80.dp),
                     colors = ButtonDefaults.buttonColors(colorScheme.surfaceVariant)
                 ) {
