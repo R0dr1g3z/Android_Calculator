@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="calculator_cancel">C</string>
+    <string name="calculator_brackets">( )</string>
+    <string name="calculator_percentage">%</string>
+    <string name="calculator_divide">/</string>
+    <string name="calculator_multi">X</string>
+    <string name="calculator_subtraction">-</string>
+    <string name="calculator_add">+</string>
+    <string name="calculator_comma">,</string>
+    <string name="calculator_result">=</string>
+    <string name="calculator_empty"> </string>
+    <string name="calculator_9">9</string>
+    <string name="calculator_8">8</string>
+    <string name="calculator_7">7</string>
+    <string name="calculator_6">6</string>
+    <string name="calculator_5">5</string>
+    <string name="calculator_4">4</string>
+    <string name="calculator_3">3</string>
+    <string name="calculator_2">2</string>
+    <string name="calculator_1">1</string>
+    <string name="calculator_0">0</string>
 </resources>
